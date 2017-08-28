@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * Mirror of Bezier Curve generation in NerdyDrive. A quick tool to check Bezier
  * Curve values in Excel before uploading to Robot.
  * 
- * @author tedfoodlin
+ * @author tedlin
  *
  */
 
@@ -14,13 +14,25 @@ public class Main {
     public static double y0 = 0;
 
     public static double x1 = 0;
-    public static double y1 = 4;
+    public static double y1 = 87000;
 
     public static double x2 = 0;
-    public static double y2 = 4;
+    public static double y2 = 100300;
 
-    public static double x3 = 3;
-    public static double y3 = 4;
+    public static double x3 = -48000;
+    public static double y3 = 100300;
+
+    // public static double x4 = 65.31;
+    // public static double y4 = 118.5;
+    //
+    // public static double x5 = 10;
+    // public static double y5 = 87.3;
+    //
+    // public static double x6 = 11;
+    // public static double y6 = 166.8;
+    //
+    // public static double x7 = -29.7;
+    // public static double y7 = 103.24;
 
     public static double m_cx;
     public static double m_bx;
@@ -53,6 +65,27 @@ public class Main {
 	System.out.println("robot values found");
 
 	System.out.println("total arc length: " + arcLength.get(arcLength.size() - 1));
+
+	// BezierCurve bezier2 = new BezierCurve(x4, y4, x5, y5, x6, y6, x7, y7);
+	// bezier2.calculateBezier();
+	// xPoints = bezier2.getXPoints();
+	// yPoints = bezier2.getYPoints();
+	// headings = bezier2.getHeading();
+	// arcLength = bezier2.getArcLength();
+	//
+	// CSVFileWriter pathGrapher2 = new CSVFileWriter("path2.csv", "X Points",
+	// xPoints, "Y Points", yPoints);
+	// pathGrapher2.writeToFile();
+	// System.out.println("path graphed");
+	//
+	// CSVFileWriter robotValues2 = new CSVFileWriter("robotValues2.csv", "Heading",
+	// headings, "Arc Length",
+	// arcLength);
+	// robotValues2.writeToFile();
+	// System.out.println("robot values found");
+	//
+	// System.out.println("total arc length: " + arcLength.get(arcLength.size() -
+	// 1));
     }
 
 }

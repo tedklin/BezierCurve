@@ -3,7 +3,7 @@ import java.util.ArrayList;
 /**
  * Bezier curve generation inspired by 1241
  *
- * @author tedfoodlin
+ * @author tedlin
  *
  */
 

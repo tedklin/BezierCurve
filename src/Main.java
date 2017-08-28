@@ -14,7 +14,7 @@ public class Main {
     public static double y0 = 0;
 
     public static double x1 = 0;
-    public static double y1 = 87000;
+    public static double y1 = 100300;
 
     public static double x2 = 0;
     public static double y2 = 100300;

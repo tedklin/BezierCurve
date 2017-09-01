@@ -40,14 +40,10 @@ public class BezierCurve {
 	m_cx = 3 * (m_xVal[1] - m_xVal[0]);
 	m_bx = 3 * (m_xVal[2] - m_xVal[1]) - m_cx;
 	m_ax = m_xVal[3] - m_xVal[0] - m_cx - m_bx;
-	System.out.println("x params calculated");
-	System.out.println("cx: " + m_cx + ", bx: " + m_bx + ", m_ax: " + m_ax);
 
 	m_cy = 3 * (m_yVal[1] - m_yVal[0]);
 	m_by = 3 * (m_yVal[2] - m_yVal[1]) - m_cy;
 	m_ay = m_yVal[3] - m_yVal[0] - m_cy - m_by;
-	System.out.println("y params calculated");
-	System.out.println("cy: " + m_cy + ", by: " + m_by + ", m_ay: " + m_ay);
     }
 
     public double calculateX(double counter) {

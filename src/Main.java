@@ -39,6 +39,7 @@ public class Main {
     public static double kRotPBezier = 0.03;
     public static double kStraightPowerAdjuster = 0.5;
     public static double kMaxStraightPower = 0.75;
+    public static double kDistPBezier = 0.001;
 
     public static double m_cx;
     public static double m_bx;
@@ -164,14 +165,21 @@ public class Main {
 	writer.append("\r");
 
 	for (counter = 1; counter < heading.size(); counter++) {
-	    double headingError = heading.get(counter) - heading.get(counter - 1);
+	    double headingError = heading.get(counter) - heading.get(counter - 1); // theoretical
 	    double rotPower = kRotPBezier * headingError;
-	    double sign = Math.signum(straightPower);
+	    double direction = Math.signum(straightPower);
 	    // comment out next line to disable straight power adjuster
-	    straightPower = sign * basePower / (Math.abs(headingError) * kStraightPowerAdjuster);
+	    straightPower = direction * basePower / (Math.abs(headingError) * kStraightPowerAdjuster);
 
-	    if (Math.abs(straightPower) > kMaxStraightPower) {
-		straightPower = kMaxStraightPower * sign;
+	    double straightError = arcLengths.get(arcLengths.size() - 1) - arcLengths.get(counter); // theoretical
+	    double maxStraightPower = kMaxStraightPower; // default
+	    // if softStop
+	    double newMaxStraightPower = kDistPBezier * straightError;
+	    double sign = Math.signum(newMaxStraightPower);
+	    maxStraightPower = Math.min(Math.abs(maxStraightPower), Math.abs(newMaxStraightPower)) * sign;
+
+	    if (Math.abs(straightPower) > maxStraightPower) {
+		straightPower = maxStraightPower * sign;
 	    }
 
 	    double leftPower = straightPower + rotPower;

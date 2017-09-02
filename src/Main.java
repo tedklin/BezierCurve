@@ -39,7 +39,7 @@ public class Main {
     public static double kRotPBezier = 0.03;
     public static double kStraightPowerAdjuster = 0.5;
     public static double kMaxStraightPower = 0.75;
-    public static double kDistPBezier = 0.001;
+    public static double kDistPBezier = 0.01875;
 
     public static double m_cx;
     public static double m_bx;

@@ -39,6 +39,7 @@ public class Main {
     public static double kRotPBezier = 0.03;
     public static double kStraightPowerAdjuster = 0.5;
     public static double kMaxStraightPower = 0.75;
+    public static double kMinStraightPower = 0.33;
     public static double kDistPBezier = 0.01875;
 
     public static double m_cx;
@@ -179,7 +180,11 @@ public class Main {
 	    maxStraightPower = Math.min(Math.abs(maxStraightPower), Math.abs(newMaxStraightPower)) * sign;
 
 	    if (Math.abs(straightPower) > maxStraightPower) {
-		straightPower = maxStraightPower * sign;
+		straightPower = maxStraightPower * direction;
+	    }
+
+	    if (Math.abs(straightPower) < kMinStraightPower) {
+		straightPower = kMinStraightPower * direction;
 	    }
 
 	    double leftPower = straightPower + rotPower;

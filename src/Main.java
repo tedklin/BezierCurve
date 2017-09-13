@@ -36,11 +36,12 @@ public class Main {
     public static double x7 = -29.7;
     public static double y7 = 103.24;
 
-    public static double kRotPBezier = 0.03;
+    public static double kRotPBezier = 0.05;
     public static double kStraightPowerAdjuster = 0.5;
     public static double kMaxStraightPower = 0.75;
-    public static double kMinStraightPower = 0.33;
-    public static double kDistPBezier = 0.01875;
+    public static double kMinStraightPower = 0.25;
+    // public static double kDistPBezier = 0.01875; // this is the right one
+    public static double kDistPBezier = 0.03; // testing
 
     public static double m_cx;
     public static double m_bx;
@@ -62,8 +63,8 @@ public class Main {
 	System.out.println("bezier generated");
 
 	try {
-	    sampleRobotValues(bezier1, "samplePath1.csv", 0.687);
-	    sampleRobotValues(bezier2, "samplePath2.csv", -0.687);
+	    sampleRobotValues(bezier1, "samplePath1.csv", -0.687);
+	    sampleRobotValues(bezier2, "samplePath2.csv", 0.687);
 
 	    System.out.println("path generated");
 	} catch (IOException e) {
@@ -166,7 +167,7 @@ public class Main {
 	writer.append("\r");
 
 	for (counter = 1; counter < heading.size(); counter++) {
-	    double headingError = heading.get(counter) - heading.get(counter - 1); // theoretical
+	    double headingError = heading.get(counter - 1) - heading.get(counter); // theoretical
 	    double rotPower = kRotPBezier * headingError;
 	    double direction = Math.signum(straightPower);
 	    // comment out next line to disable straight power adjuster
@@ -176,8 +177,7 @@ public class Main {
 	    double maxStraightPower = kMaxStraightPower; // default
 	    // if softStop
 	    double newMaxStraightPower = kDistPBezier * straightError;
-	    double sign = Math.signum(newMaxStraightPower);
-	    maxStraightPower = Math.min(Math.abs(maxStraightPower), Math.abs(newMaxStraightPower)) * sign;
+	    maxStraightPower = Math.min(Math.abs(maxStraightPower), Math.abs(newMaxStraightPower));
 
 	    if (Math.abs(straightPower) > maxStraightPower) {
 		straightPower = maxStraightPower * direction;

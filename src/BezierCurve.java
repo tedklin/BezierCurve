@@ -88,11 +88,6 @@ public class BezierCurve {
 		heading = Math.toDegrees(Math.atan2(xDelta, yDelta));
 	    }
 
-	    // check this
-	    if (heading < 0) {
-		heading = 180 + heading;
-	    }
-
 	    double hypotenuse = Math.sqrt(Math.pow(xDelta, 2) + Math.pow(yDelta, 2));
 	    m_distance += hypotenuse;
 

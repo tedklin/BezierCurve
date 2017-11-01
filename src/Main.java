@@ -12,17 +12,17 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static double x0 = 35000;
-    public static double y0 = 130000;
+    public static double x0 = 0;
+    public static double y0 = 0;
 
     public static double x1 = 0;
-    public static double y1 = 102800;
+    public static double y1 = 92278.44;
 
     public static double x2 = 0;
-    public static double y2 = 193400;
+    public static double y2 = 92278.44;
 
-    public static double x3 = -28800;
-    public static double y3 = 117615.1376;
+    public static double x3 = 74403.76;
+    public static double y3 = 134999.94;
 
     public static double x4 = 74403.7644;
     public static double y4 = 134999.94;
@@ -36,8 +36,8 @@ public class Main {
     public static double x7 = -33835.428;
     public static double y7 = 117615.1376;
 
-    public static double kRotPBezier = 0.03;
-    public static double kMaxStraightPower = 0.7;
+    public static double kRotPBezier = 0.04;
+    public static double kMaxStraightPower = 0.8;
     public static double kMinStraightPower = 0.25;
     // public static double kDistPBezier = 0.03; // inches
     public static double kDistPBezier = 0.00005; // ticks
@@ -49,11 +49,6 @@ public class Main {
     public static double m_cy;
     public static double m_by;
     public static double m_ay;
-
-    // public static ArrayList<Double> xPoints;
-    // public static ArrayList<Double> yPoints;
-    // public static ArrayList<Double> headings;
-    // public static ArrayList<Double> arcLength;
 
     public static double m_distance = 0;
 
@@ -113,6 +108,10 @@ public class Main {
 	writer.append("Left Power");
 	writer.append(",");
 	writer.append("Right Power");
+	writer.append(",");
+	writer.append("Left Adjusted Power");
+	writer.append(",");
+	writer.append("Right Adjusted Power");
 	writer.append("\r");
 
 	for (counter = 1; counter < heading.size(); counter++) {
@@ -125,12 +124,6 @@ public class Main {
 	    rotError = (rotError > 180) ? rotError - 360 : rotError;
 	    rotError = (rotError < -180) ? rotError + 360 : rotError;
 	    double rotPower = kRotPBezier * rotError;
-
-	    double deltaHeading = heading.get(counter) - heading.get(counter - 1);
-	    double deltaSegmentLength = arcLengths.get(counter) - arcLengths.get(counter - 1);
-	    double curvature = Math.abs(rotError / deltaSegmentLength);
-	    // comment out next line to disable straight power adjuster
-	    straightPower = kMaxStraightPower - kCurvatureFunction * curvature;
 
 	    double straightError = arcLengths.get(arcLengths.size() - 1) - arcLengths.get(counter); // theoretical
 	    double maxStraightPower = kMaxStraightPower; // default
@@ -149,6 +142,24 @@ public class Main {
 	    double leftPower = straightPower + rotPower;
 	    double rightPower = straightPower - rotPower;
 
+	    double deltaHeading = heading.get(counter) - heading.get(counter - 1);
+	    double deltaSegmentLength = arcLengths.get(counter) - arcLengths.get(counter - 1);
+	    double curvature = Math.abs(rotError / deltaSegmentLength);
+	    double adjustedStraightPower = (kMaxStraightPower - kCurvatureFunction * curvature) * direction;
+
+	    // if softStop
+	    maxStraightPower = Math.min(Math.abs(maxStraightPower), Math.abs(newMaxStraightPower));
+
+	    if (Math.abs(adjustedStraightPower) > maxStraightPower) {
+		adjustedStraightPower = maxStraightPower * direction;
+	    }
+	    if (Math.abs(adjustedStraightPower) < kMinStraightPower) {
+		adjustedStraightPower = kMinStraightPower * direction;
+	    }
+
+	    double adjustedLeftPower = adjustedStraightPower + rotPower;
+	    double adjustedRightPower = adjustedStraightPower - rotPower;
+
 	    writer.append(String.valueOf(xPoints.get(counter)));
 	    writer.append(",");
 	    writer.append(String.valueOf(yPoints.get(counter)));
@@ -166,6 +177,10 @@ public class Main {
 	    writer.append(String.valueOf(leftPower));
 	    writer.append(",");
 	    writer.append(String.valueOf(rightPower));
+	    writer.append(",");
+	    writer.append(String.valueOf(adjustedLeftPower));
+	    writer.append(",");
+	    writer.append(String.valueOf(adjustedRightPower));
 	    writer.append("\r");
 	}
 

@@ -16,13 +16,13 @@ public class Main {
     public static double y0 = 0;
 
     public static double x1 = 0;
-    public static double y1 = 92278.44;
+    public static double y1 = 65800;
 
     public static double x2 = 0;
-    public static double y2 = 92278.44;
+    public static double y2 = 84700;
 
-    public static double x3 = 74403.76;
-    public static double y3 = 134999.94;
+    public static double x3 = 101000;
+    public static double y3 = 142000;
 
     public static double x4 = 74403.7644;
     public static double y4 = 134999.94;
@@ -41,7 +41,7 @@ public class Main {
     public static double kMinStraightPower = 0.25;
     // public static double kDistPBezier = 0.03; // inches
     public static double kDistPBezier = 0.00005; // ticks
-    public static double kCurvatureFunction = 100;
+    public static double kCurvatureFunction = 85; // keep this under 150
 
     public static double m_cx;
     public static double m_bx;

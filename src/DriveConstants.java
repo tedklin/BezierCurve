@@ -5,11 +5,12 @@
 
 public class DriveConstants {
 
-    // Conversions
-    public final static double kDriveFeetToEncoderUnitsRight = 0;
-    public final static double kDriveFeetToEncoderUnitsLeft = 0;
-    public final static double kWheelDiameter = 6; // in inches
-    public final static double kDrivetrainWidth = 25; // in inches
+    // Practice robot (inches)
+    public final static double kWheelDiameter = 6.25;
+    public final static double kBumperWidth = 3;
+    public final static double kWheelToWheelDist = 25;
+    public final static double kDrivetrainWidth = 27 + 2 * kBumperWidth; // without bumpers
+    public final static double kDrivetrainLength = 31 + 2 * kBumperWidth; // without bumpers
 
     // Safety
     public final static int kPeakCurrentLimit = 0;

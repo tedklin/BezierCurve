@@ -5,11 +5,11 @@
 public class NerdyMath {
 
     public static double radiansToDegrees(double rads) {
-	return rads * 360 / (2 * Math.PI);
+	return rads * 180 / Math.PI;
     }
 
     public static double degreesToRadians(double deg) {
-	return deg * (2 * Math.PI) / 360;
+	return deg * Math.PI / 180;
     }
 
     public static double inchesToRotations(double inches) {
@@ -21,7 +21,7 @@ public class NerdyMath {
     }
 
     public static int inchesToTicks(double inches) {
-	return (int) (rotationsToTicks(inchesToRotations(inches)));
+	return (int) (inches / Math.PI / 6 * 4096);
     }
 
     public static double ticksToRotations(int ticks) {
@@ -33,7 +33,7 @@ public class NerdyMath {
     }
 
     public static double ticksToInches(int ticks) {
-	return rotationsToInches(ticksToRotations(ticks));
+	return ticks / 4096 * 6 * Math.PI;
     }
 
     public static double inchesToFeet(double inches) {

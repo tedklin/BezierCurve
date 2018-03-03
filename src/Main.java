@@ -62,12 +62,8 @@ public class Main {
 	    // sampleRobotValues(bezier2, "samplePath2.csv", 0.687);
 	    sampleRobotValues(AutoConstants.kRedCenterToRightSwitchPath, "_center_to_right_switch.csv", 0.7, 0.05,
 		    0.0005, true);
-	    sampleRobotValues(AutoConstants.kRedCenterToRightMidPath, "_center_to_right_mid.csv", -0.7, 0.05, 0.005,
+	    sampleRobotValues(AutoConstants.kRedCenterToLeftSwitchPath, "_center_to_left_switch.csv", 0.7, 0.05, 0.005,
 		    false);
-	    sampleRobotValues(AutoConstants.kRedRightMidToRightScalePath, "_right_mid_right_scale.csv", -0.7, 0.05,
-		    0.0001, true);
-	    sampleRobotValues(AutoConstants.kRedRightScaleToCubePath, "_right_scale_to_cube.csv", 0.5, 0.05, 0.005,
-		    true);
 
 	    System.out.println("path generated");
 	} catch (IOException e) {

@@ -58,7 +58,7 @@ public class BezierCurve {
 	m_xPoints.clear();
 	m_yPoints.clear();
 
-	double step = 60;
+	double step = 100;
 	for (double i = 0; i <= 1; i += (1 / step)) {
 	    m_xPoints.add(calculateX(i));
 	    m_yPoints.add(calculateY(i));

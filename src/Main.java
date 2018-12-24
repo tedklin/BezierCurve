@@ -15,14 +15,14 @@ public class Main {
     public static double x0 = 0;
     public static double y0 = 0;
 
-    public static double x1 = 0;
-    public static double y1 = 65800;
+    public static double x1 = 50;
+    public static double y1 = 75;
 
-    public static double x2 = 0;
-    public static double y2 = 84700;
+    public static double x2 = 93;
+    public static double y2 = 0;
 
-    public static double x3 = 101000;
-    public static double y3 = 142000;
+    public static double x3 = 93;
+    public static double y3 = 118;
 
     public static double x4 = 74403.7644;
     public static double y4 = 134999.94;
@@ -36,11 +36,11 @@ public class Main {
     public static double x7 = -33835.428;
     public static double y7 = 117615.1376;
 
-    public static double kRotPBezier = 0.04;
+    // public static double kRotPBezier = 0.05;
     public static double kMaxStraightPower = 0.8;
     public static double kMinStraightPower = 0.25;
     // public static double kDistPBezier = 0.03; // inches
-    public static double kDistPBezier = 0.00005; // ticks
+    // public static double kDistPBezier = 0.0005; // ticks
     public static double kCurvatureFunction = 85; // keep this under 150
 
     public static double m_cx;
@@ -54,16 +54,23 @@ public class Main {
 
     public static void main(String[] args) {
 	BezierCurve bezier1 = new BezierCurve(x0, y0, x1, y1, x2, y2, x3, y3);
-	BezierCurve bezier2 = new BezierCurve(x4, y4, x5, y5, x6, y6, x7, y7);
-	System.out.println("bezier generated");
+	// BezierCurve bezier2 = new BezierCurve(x4, y4, x5, y5, x6, y6, x7, y7);
+	// System.out.println("bezier generated");
 
 	try {
-	    sampleRobotValues(bezier1, "samplePath1.csv", -0.687);
-	    sampleRobotValues(bezier2, "samplePath2.csv", 0.687);
+	    sampleRobotValues(bezier1, "samplePath1.csv", -0.687, 0.05, 0.01, true);
+	    // sampleRobotValues(bezier2, "samplePath2.csv", 0.687);
+	    sampleRobotValues(AutoConstants.kRedCenterToRightSwitchPath, "_center_to_right_switch.csv", 0.7, 0.05, 0.01,
+		    true);
+	    sampleRobotValues(AutoConstants.kRedCenterToLeftSwitchPath, "_center_to_left_switch.csv", 0.7, 0.05, 0.01,
+		    true);
+	    sampleRobotValues(AutoConstants.kRedLeftSwitchToCenterPath, "_right_switch_to_center.csv", -0.5, 0.05, 0.01,
+		    true);
+	    sampleRobotValues(AutoConstants.kRedRightSwitchToCenterPath, "_left_switch_to_center.csv", -0.5, 0.05, 0.01,
+		    true);
 
 	    System.out.println("path generated");
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }
@@ -75,8 +82,8 @@ public class Main {
      * @param name
      * @throws IOException
      */
-    public static void sampleRobotValues(BezierCurve bezierCurve, String name, double straightPower)
-	    throws IOException {
+    public static void sampleRobotValues(BezierCurve bezierCurve, String name, double straightPower, double kRotPBezier,
+	    double kDistPBezier, boolean softStop) throws IOException {
 	bezierCurve.calculateBezier();
 
 	ArrayList<Double> xPoints = bezierCurve.getXPoints();
@@ -118,6 +125,12 @@ public class Main {
 	    double direction = Math.signum(straightPower);
 	    double robotAngle = (360 - heading.get(counter - 1)) % 360;
 	    double desiredHeading = heading.get(counter);
+
+	    // remember this goes into the robot code
+	    // if (direction > 0) {
+	    // desiredHeading += 180;
+	    // }
+
 	    desiredHeading = -desiredHeading; // This is always necessary because of how our rotational PID is
 					      // structured.
 	    double rotError = desiredHeading - robotAngle;
@@ -128,9 +141,10 @@ public class Main {
 	    double straightError = arcLengths.get(arcLengths.size() - 1) - arcLengths.get(counter); // theoretical
 	    double maxStraightPower = kMaxStraightPower; // default
 
-	    // if softStop
-	    double newMaxStraightPower = kDistPBezier * straightError;
-	    maxStraightPower = Math.min(Math.abs(maxStraightPower), Math.abs(newMaxStraightPower));
+	    if (softStop) {
+		double newMaxStraightPower = kDistPBezier * straightError;
+		maxStraightPower = Math.min(Math.abs(maxStraightPower), Math.abs(newMaxStraightPower));
+	    }
 
 	    if (Math.abs(straightPower) > maxStraightPower) {
 		straightPower = maxStraightPower * direction;
@@ -139,16 +153,13 @@ public class Main {
 		straightPower = kMinStraightPower * direction;
 	    }
 
-	    double leftPower = straightPower + rotPower;
-	    double rightPower = straightPower - rotPower;
+	    double leftPower = straightPower - rotPower;
+	    double rightPower = straightPower + rotPower;
 
 	    double deltaHeading = heading.get(counter) - heading.get(counter - 1);
 	    double deltaSegmentLength = arcLengths.get(counter) - arcLengths.get(counter - 1);
 	    double curvature = Math.abs(rotError / deltaSegmentLength);
 	    double adjustedStraightPower = (kMaxStraightPower - kCurvatureFunction * curvature) * direction;
-
-	    // if softStop
-	    maxStraightPower = Math.min(Math.abs(maxStraightPower), Math.abs(newMaxStraightPower));
 
 	    if (Math.abs(adjustedStraightPower) > maxStraightPower) {
 		adjustedStraightPower = maxStraightPower * direction;

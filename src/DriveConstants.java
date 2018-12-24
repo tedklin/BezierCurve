@@ -1,15 +1,15 @@
-
 /**
  * Drive constants
  */
 
 public class DriveConstants {
 
-    // Practice robot (inches)
-    public final static double kWheelDiameter = 6.25;
+    // Drivetrain stuff in inches
+    // practice robot
+    public final static double kWheelDiameter = 6;
     public final static double kBumperWidth = 3;
     public final static double kWheelToWheelDist = 25;
-    public final static double kDrivetrainWidth = 27 + 2 * kBumperWidth; // without bumpers
+    public final static double kDrivetrainWidth = 27 + 2 * 0; // without bumpers
     public final static double kDrivetrainLength = 31 + 2 * kBumperWidth; // without bumpers
 
     // Safety
@@ -19,17 +19,30 @@ public class DriveConstants {
     public final static int kDistanceToAccelerate = 67000;
 
     // Velocity PIDF
-    public final static double kRightVelocityF = 0.271352785;
-    public final static double kRightVelocityP = 0;
+    public final static double kRightVelocityF = 0.32517483;
+    public final static double kRightVelocityP = 0.2325;
     public final static double kRightVelocityI = 0;
     public final static double kRightVelocityD = 0;
 
-    public final static double kLeftVelocityF = 0.276411781;
-    public final static double kLeftVelocityP = 0;
+    public final static double kLeftVelocityF = 0.31322719;
+    public final static double kLeftVelocityP = 0.288983;
     public final static double kLeftVelocityI = 0;
     public final static double kLeftVelocityD = 0;
 
-    public final static double kMaxVelocity = 3492; // max velocity on ground
+    public final static double kMaxVelocity = 3150; // max velocity on ground
+
+    public final static double kDistRotP = 0.004;
+    public final static double kDistD = 0;
+    public final static double kDriveDistanceTolerance = 0;
+    public final static double kDriveDistanceOscillationCount = 0;
+    public final static double kRotP = .00971;
+    public final static double kRotD = .00118;
+    public final static double kRotMinPower = 0.1477;
+    public final static double kRotPMaxPower = .330;
+
+    public final static double kDriveRotationTolerance = 1;
+    public final static double kDriveRotationDeadband = 0.5;
+    public final static int kDriveRotationCounter = 3;
 
     // Motion Profiling
     public final static double kCruiseVelocity = 0;
@@ -49,7 +62,8 @@ public class DriveConstants {
     public final static double kJoystickDeadband = 0.02;
 
     // Bezier Curves
-    public final static double kBezierStep = 100;
+    public final static double kBezierStep = 30;
+    public final static double kMinStraightPower = 0.1;
 
     // the higher the curvature function is, the slower the robot will go during a
     // sharp turn; keep this value under 148 to be safe; if it is zero, the straight

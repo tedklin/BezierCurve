@@ -12,17 +12,17 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static double x0 = 1.367;
-    public static double y0 = 2.82;
+    public static double x0 = 0;
+    public static double y0 = 0;
 
-    public static double x1 = 1.35;
-    public static double y1 = 1.837;
+    public static double x1 = 50;
+    public static double y1 = 75;
 
-    public static double x2 = 2.007;
-    public static double y2 = 2.36;
+    public static double x2 = 93;
+    public static double y2 = 0;
 
-    public static double x3 = 2.01;
-    public static double y3 = 1.316;
+    public static double x3 = 93;
+    public static double y3 = 118;
 
     public static double x4 = 74403.7644;
     public static double y4 = 134999.94;
@@ -53,17 +53,21 @@ public class Main {
     public static double m_distance = 0;
 
     public static void main(String[] args) {
-	// BezierCurve bezier1 = new BezierCurve(x0, y0, x1, y1, x2, y2, x3, y3);
+	BezierCurve bezier1 = new BezierCurve(x0, y0, x1, y1, x2, y2, x3, y3);
 	// BezierCurve bezier2 = new BezierCurve(x4, y4, x5, y5, x6, y6, x7, y7);
 	// System.out.println("bezier generated");
 
 	try {
-	    // sampleRobotValues(bezier1, "samplePath1.csv", -0.687);
+	    sampleRobotValues(bezier1, "samplePath1.csv", -0.687, 0.05, 0.01, true);
 	    // sampleRobotValues(bezier2, "samplePath2.csv", 0.687);
-	    sampleRobotValues(AutoConstants.kRedCenterToRightSwitchPath, "_center_to_right_switch.csv", 0.7, 0.05,
-		    0.0005, true);
-	    sampleRobotValues(AutoConstants.kRedCenterToLeftSwitchPath, "_center_to_left_switch.csv", 0.7, 0.05, 0.005,
-		    false);
+	    sampleRobotValues(AutoConstants.kRedCenterToRightSwitchPath, "_center_to_right_switch.csv", 0.7, 0.05, 0.01,
+		    true);
+	    sampleRobotValues(AutoConstants.kRedCenterToLeftSwitchPath, "_center_to_left_switch.csv", 0.7, 0.05, 0.01,
+		    true);
+	    sampleRobotValues(AutoConstants.kRedLeftSwitchToCenterPath, "_right_switch_to_center.csv", -0.5, 0.05, 0.01,
+		    true);
+	    sampleRobotValues(AutoConstants.kRedRightSwitchToCenterPath, "_left_switch_to_center.csv", -0.5, 0.05, 0.01,
+		    true);
 
 	    System.out.println("path generated");
 	} catch (IOException e) {
@@ -149,8 +153,8 @@ public class Main {
 		straightPower = kMinStraightPower * direction;
 	    }
 
-	    double leftPower = straightPower + rotPower;
-	    double rightPower = straightPower - rotPower;
+	    double leftPower = straightPower - rotPower;
+	    double rightPower = straightPower + rotPower;
 
 	    double deltaHeading = heading.get(counter) - heading.get(counter - 1);
 	    double deltaSegmentLength = arcLengths.get(counter) - arcLengths.get(counter - 1);
